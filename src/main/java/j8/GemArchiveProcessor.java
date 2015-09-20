@@ -1,10 +1,13 @@
 package org.indyscala.streams.j8;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
@@ -12,10 +15,27 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class GemArchiveProcessor {
 
+    private final ObjectMapper mapper;
+
+    public GemArchiveProcessor() {
+        mapper = new ObjectMapper();
+    }
+
     public void process(Iterable<String> files) {
         Stream<String> lines = lines(files);
-        long count = lines.count();
+        long count = lines
+                .map(line -> parseJson(line))
+                .count();
         System.out.println("LINES: " + count);
+    }
+
+    private Map parseJson(String json) {
+        try {
+            return mapper.readValue(json, Map.class);
+        } catch (Exception e) {
+            // punt on checked exceptions in Java8 map()
+            throw new RuntimeException("Failed to parse JSON `" + json + "`", e);
+        }
     }
 
     private Stream<String> lines(Iterable<String> files) {
