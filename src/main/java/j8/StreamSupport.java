@@ -12,7 +12,9 @@ public class StreamSupport {
         List<InputStream> files = new ArrayList<>();
         for (String file : extractFilenames(System.getenv(ENV_FILE_LIST))) {
             files.add(
-                    new GZIPInputStream(new FileInputStream(file)));
+                    file.endsWith(".gz")
+                    ? new GZIPInputStream(new FileInputStream(file))
+                    : new FileInputStream(file));
         }
         return files;
     }
