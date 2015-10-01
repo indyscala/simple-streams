@@ -3,13 +3,13 @@ package org.indyscala.streams.j8;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
+
+import org.indyscala.streams.support.StreamSupport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -21,8 +21,8 @@ public class GemArchiveProcessor {
         mapper = new ObjectMapper();
     }
 
-    public void process(Iterable<String> files) {
-        Stream<String> lines = lines(files);
+    public void process() {
+        Stream<String> lines = lines();
         long count = lines
                 .map(line -> parseJson(line))
                 .count();
@@ -38,33 +38,30 @@ public class GemArchiveProcessor {
         }
     }
 
-    private Stream<String> lines(Iterable<String> files) {
+    private Stream<String> lines() {
         Stream<String> lines = Stream.empty();
-        for (String file : files) {
+        Iterable<InputStream> inputs;
+        try {
+            inputs = StreamSupport.findInputs();
+        } catch (Exception e) {
+            throw new RuntimeException("Error finding inputs for processing.", e);
+        }
+        for (InputStream in : inputs) {
             try {
-                lines = Stream.concat(lines, asStream(file));
+                lines = Stream.concat(lines, asStream(in));
             } catch (IOException e) {
-                throw new RuntimeException("Error opening or reading `" + file + "`", e);
+                throw new RuntimeException("Error opening or reading input.", e);
             }
         }
         return lines;
     }
 
-    private Stream<String> asStream(String file) throws IOException {
-        BufferedReader r = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(file)), UTF_8));
+    private Stream<String> asStream(InputStream in) throws IOException {
+        BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8));
         return r.lines();
     }
 
     public static void main(String... args) throws Exception {
-        if (args.length < 1) {
-            usage();
-            System.exit(1);
-        }
-
-        new GemArchiveProcessor().process(Arrays.asList(args));
-    }
-
-    public static void usage() {
-        System.out.println("java org.indyscala.streams.j8.GemArchiveProcessor file1.gz [file2.gz ... fileN.gz]");
+        new GemArchiveProcessor().process();
     }
 }
