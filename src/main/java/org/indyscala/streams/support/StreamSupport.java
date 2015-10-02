@@ -1,7 +1,9 @@
 package org.indyscala.streams.support;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 public class StreamSupport {
@@ -21,5 +23,10 @@ public class StreamSupport {
 
     private static String[] extractFilenames(String paths) {
         return paths.split("\\s+");
+    }
+
+    public static Stream<String> bufferedLineStream(InputStream in, Charset cs, int bufferSize) {
+        BufferedReader r = new BufferedReader(new InputStreamReader(in, cs), bufferSize);
+        return r.lines();
     }
 }
