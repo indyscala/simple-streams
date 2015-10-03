@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -33,17 +34,17 @@ public class Demo {
         return lines;
     }
 
-    private static Stream<Map> streamJson() throws Exception {
+    private static Stream<Optional<Map>> streamJson() throws Exception {
         return streamLines()
             .map(Demo::parseJson);
     }
 
-    private static Map parseJson(String json) {
+    private static Optional<Map> parseJson(String json) {
         try {
-            return mapper.readValue(json, Map.class);
+            return Optional.of(mapper.readValue(json, Map.class));
         } catch (Exception e) {
             // punt on checked exceptions in Java8 map()
-            throw new RuntimeException("Failed to parse JSON `" + json + "`", e);
+            return Optional.empty();
         }
     }
 }
