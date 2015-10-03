@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -29,6 +30,23 @@ public class Demo {
 
         return new Result()
             .put("count", count)
+            .lock();
+    }
+
+    public static Result countJsonGrouped() throws Exception {
+        Map<Boolean,Long> counts = streamJson()
+            .collect(Collectors.groupingBy(
+                        Optional::isPresent, HashMap::new, Collectors.counting()));
+
+        // groupingBy(): http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#groupingBy-java.util.function.Function-java.util.function.Supplier-java.util.stream.Collector-
+
+        long errorCount = counts.get(Boolean.FALSE).longValue();
+        long parsedCount = counts.get(Boolean.TRUE).longValue();
+
+        return new Result()
+            .put("count", parsedCount + errorCount)
+            .put("parsed", parsedCount)
+            .put("errors", errorCount)
             .lock();
     }
 
