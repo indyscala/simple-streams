@@ -3,8 +3,7 @@ package org.indyscala.streams.j8;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -15,14 +14,22 @@ public class Demo {
     private static final int BUFFER_SIZE = 8192;
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static long countLines() throws Exception {
-        return streamLines()
+    public static Result countLines() throws Exception {
+        long count = streamLines()
             .count();
+
+        return new Result()
+            .put("count", count)
+            .lock();
     }
 
-    public static long countJson() throws Exception {
-        return streamJson()
+    public static Result countJson() throws Exception {
+        long count = streamJson()
             .count();
+
+        return new Result()
+            .put("count", count)
+            .lock();
     }
 
     private static Stream<String> streamLines() throws Exception {
@@ -45,6 +52,36 @@ public class Demo {
         } catch (Exception e) {
             // punt on checked exceptions in Java8 map()
             return Optional.empty();
+        }
+    }
+
+    public static class Result {
+        private Map<String, Object> vals;
+
+        public Result() {
+            vals = new HashMap<>();
+        }
+
+        public Result lock() {
+            vals = Collections.unmodifiableMap(vals);
+            return this;
+        }
+
+        public Result put(String key, Object val) {
+            vals.put(key, val);
+            return this;
+        }
+
+        public Object get(String key) {
+            return vals.get(key);
+        }
+
+        public Number getCount() {
+            Number count = (Number) vals.get("count");
+            if (count == null) {
+                throw new NoSuchElementException(("count not specified"));
+            }
+            return count;
         }
     }
 }

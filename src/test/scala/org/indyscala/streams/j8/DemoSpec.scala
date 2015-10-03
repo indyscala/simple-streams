@@ -26,12 +26,12 @@ class DemoSpec extends FlatSpec with Matchers {
   }
 
   "Counting lines" should "complete without error" in {
-    val lines = Demo.countLines()
-    info(s"counted $lines lines")
+    val r = Demo.countLines()
+    info(s"counted ${r.getCount()} lines")
   }
 
-  "Parsing JSON" should "complete without error" in {
-    val lines = Demo.countJson()
-    info(s"parsed $lines lines")
+  "Parsing JSON (simple)" should "complete without error" in {
+    val r = Demo.countJson()
+    info(s"counted ${r.getCount()} lines")
   }
 }
