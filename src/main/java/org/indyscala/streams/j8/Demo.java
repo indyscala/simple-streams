@@ -11,11 +11,16 @@ public class Demo {
     private static final int BUFFER_SIZE = 8192;
 
     public static long countLines() throws Exception {
+        return streamLines()
+            .count();
+    }
+
+    private static Stream<String> streamLines() throws Exception {
         Iterable<InputStream> inputs = findInputs();
         Stream<String> lines = Stream.empty();
         for (InputStream in : inputs) {
             lines = Stream.concat(lines, bufferedLineStream(in, UTF_8, BUFFER_SIZE));
         }
-        return lines.count();
+        return lines;
     }
 }
