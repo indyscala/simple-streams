@@ -30,7 +30,7 @@ object Demo {
 
   private def parseJson(json: String): Map[String,Any] = {
     import org.json4s._
-    import org.json4s.native.JsonMethods._
+    import org.json4s.jackson.JsonMethods._
     implicit val formats = DefaultFormats
 
     parse(json).extract[Map[String,Any]]
