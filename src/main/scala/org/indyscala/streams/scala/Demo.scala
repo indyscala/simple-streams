@@ -6,12 +6,12 @@ import scala.util.Try
 
 object Demo {
   def countLines(): Result = {
-    val count = prepareLines().count((String) => true)
+    val count = prepareLines().count(allElements)
     Result(count=Some(count))
   }
 
   def countJson(): Result = {
-    val count = prepareJson().count((String) => true)
+    val count = prepareJson().count(allElements)
     Result(count=Some(count))
   }
 
@@ -39,6 +39,8 @@ object Demo {
 
     Try(parse(json))
   }
+
+  private def allElements[A](x: A): Boolean = true
 
   case class Result(count: Option[Long] = None, parsed: Option[Long] = None, errors: Option[Long] = None)
 }
