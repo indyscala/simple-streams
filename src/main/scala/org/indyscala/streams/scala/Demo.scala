@@ -6,13 +6,19 @@ import scala.util.Try
 
 object Demo {
   def countLines(): Result = {
-    val count = prepareLines().count(allElements)
-    Result(count=Some(count))
+    val count = prepareLines()
+      .count(allElements)
+
+    Result(
+      count=Some(count))
   }
 
   def countJson(): Result = {
-    val count = prepareJson().count(allElements)
-    Result(count=Some(count))
+    val count = prepareJson()
+      .count(allElements)
+
+    Result(
+      count=Some(count))
   }
 
   def prepareLines(): Iterator[String] = {
