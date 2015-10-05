@@ -11,7 +11,7 @@ import scalaz.stream._
 object Demo {
 
   def countLines(): Int = {
-    val empty: Process[Task,String] = Process()
+    val empty: Process[Task,String] = Process.halt
     val lines: Process[Task,String] = findInputs   // findInputs is Iterable[InputStream]
       .asScala
       .foldLeft(empty)(_ ++ io.linesR(_)(UTF8))
