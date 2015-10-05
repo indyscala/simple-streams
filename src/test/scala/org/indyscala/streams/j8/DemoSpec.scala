@@ -14,6 +14,7 @@ class DemoSpec extends UnitSpec("JAVA 8") {
     info(s"$elapsed ms for $runs runs (5 inputs per run)")
     // elapsed should be < 150 // won't compile; missing implicit conversion? (discuss)
     elapsed.toInt should be < 150
+    info(""" "less lazy" than scala version""")
   }
 
   "Counting lines" should "complete without error" in {
