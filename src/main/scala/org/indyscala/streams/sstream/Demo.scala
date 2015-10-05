@@ -16,12 +16,12 @@ object Demo {
       .asScala
       .foldLeft(empty)(_ ++ io.linesR(_)(UTF8))
 
-    val countLines: Task[Option[Int]] = lines
+    val counter: Task[Option[Int]] = lines
       .map(_ => 1)
       .sum
       .runLast
 
-    val count = countLines.run
+    val count = counter.run
 
     Result(
       count=count.map(_.toLong))
