@@ -50,7 +50,7 @@ public class Demo {
             .lock();
     }
 
-    private static Stream<String> prepareLines() throws Exception {
+    static Stream<String> prepareLines() throws Exception {
         Iterable<InputStream> inputs = findInputs();
         Stream<String> lines = Stream.empty();
         for (InputStream in : inputs) {
