@@ -24,4 +24,11 @@ class DemoSpec extends UnitSpec("SCALA") {
     val r = Demo.countJson()
     info(s"counted ${r.count.get} lines")
   }
+
+  "Parsing JSON (grouped)" should "complete without error" in {
+    val r = Demo.countJsonGrouped()
+    info(s"counted ${r.count.get} lines")
+    info(s"parsed ${r.parsed.get} lines")
+    info(s"errors ${r.errors.get}")
+  }
 }

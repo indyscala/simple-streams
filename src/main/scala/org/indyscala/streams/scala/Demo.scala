@@ -23,6 +23,23 @@ object Demo {
       count=Some(count))
   }
 
+  def countJsonGrouped(): Result = {
+    // unlike Java version, we're splitting the stream based on Try.isSuccess
+    val (parsed, errors) = prepareJson()
+        .partition(_.isSuccess)
+
+    val parsedCount = parsed
+      .count(allElements)
+
+    val errorCount = errors
+      .count(allElements)
+
+    Result(
+      count=Some(errorCount + parsedCount),
+      parsed=Some(parsedCount),
+      errors=Some(errorCount))
+  }
+
   def prepareLines(): Iterator[String] = {
     import org.indyscala.streams.support.StreamSupport.findInputs
     import scala.collection.JavaConverters._
