@@ -5,7 +5,7 @@ import org.indyscala.streams.support.UnitSpec
 class DemoSpec extends UnitSpec("SSTREAMS") {
 
   "Counting lines" should "complete without error" in {
-    val count = Demo.countLines()
-    info(s"counted $count lines")
+    val r = Demo.countLines()
+    info(s"counted ${r.count.get} lines")
   }
 }

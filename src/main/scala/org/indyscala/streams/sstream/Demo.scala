@@ -10,7 +10,7 @@ import scalaz.stream._
 
 object Demo {
 
-  def countLines(): Int = {
+  def countLines(): Result = {
     val empty: Process[Task,String] = Process.halt
     val lines: Process[Task,String] = findInputs   // findInputs is Iterable[InputStream]
       .asScala
@@ -21,6 +21,11 @@ object Demo {
       .sum
       .runLast
 
-    countLines.run.getOrElse(-1)
+    val count = countLines.run
+
+    Result(
+      count=count.map(_.toLong))
   }
+
+  case class Result(count: Option[Long] = None, parsed: Option[Long] = None, errors: Option[Long] = None)
 }
