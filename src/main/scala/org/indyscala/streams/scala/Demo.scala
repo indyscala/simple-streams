@@ -1,5 +1,7 @@
 package org.indyscala.streams.scala
 
+import java.io.InputStream
+
 import org.json4s.JsonAST.JValue
 
 import scala.util.Try
@@ -24,13 +26,20 @@ object Demo {
   def prepareLines(): Iterator[String] = {
     import org.indyscala.streams.support.StreamSupport.findInputs
     import scala.collection.JavaConverters._
-    import scala.io.Source
 
     val empty = Set[String]().iterator
     findInputs
       .asScala
-      .map(Source.fromInputStream(_).getLines())
+      .map(bufferedLineStream(_))
       .foldLeft(empty)(_ ++ _)
+  }
+
+  private def bufferedLineStream(is: InputStream): Iterator[String] = {
+    import scala.io.Codec.UTF8
+    import scala.io.Source
+    import org.indyscala.streams.support.StreamSupport.BUFFER_SIZE
+
+    Source.createBufferedSource(is, bufferSize = BUFFER_SIZE)(UTF8).getLines()
   }
 
   private def prepareJson(): Iterator[Try[JValue]] = {

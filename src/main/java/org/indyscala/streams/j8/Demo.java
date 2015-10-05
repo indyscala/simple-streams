@@ -13,7 +13,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.indyscala.streams.support.StreamSupport.*;
 
 public class Demo {
-    private static final int BUFFER_SIZE = 8192;
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Result countLines() throws Exception {
