@@ -1,5 +1,7 @@
 package org.indyscala.streams.scala
 
+import org.json4s.JsonAST.JValue
+
 object Demo {
   def countLines(): Result = {
     val count = prepareLines().count((String) => true)
@@ -23,17 +25,17 @@ object Demo {
       .foldLeft(empty)(_ ++ _)
   }
 
-  private def prepareJson(): Iterator[Map[String,Any]] = {
+  private def prepareJson(): Iterator[JValue] = {
     prepareLines()
       .map(parseJson(_))
   }
 
-  private def parseJson(json: String): Map[String,Any] = {
+  private def parseJson(json: String): JValue = {
     import org.json4s._
     import org.json4s.jackson.JsonMethods._
     implicit val formats = DefaultFormats
 
-    parse(json).extract[Map[String,Any]]
+    parse(json)
   }
 
   case class Result(count: Option[Long] = None, parsed: Option[Long] = None, errors: Option[Long] = None)

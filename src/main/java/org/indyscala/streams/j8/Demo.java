@@ -1,5 +1,6 @@
 package org.indyscala.streams.j8;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
@@ -59,14 +60,14 @@ public class Demo {
         return lines;
     }
 
-    private static Stream<Optional<Map>> prepareJson() throws Exception {
+    private static Stream<Optional<JsonNode>> prepareJson() throws Exception {
         return prepareLines()
             .map(Demo::parseJson);
     }
 
-    private static Optional<Map> parseJson(String json) {
+    private static Optional<JsonNode> parseJson(String json) {
         try {
-            return Optional.of(mapper.readValue(json, Map.class));
+            return Optional.of(mapper.readTree(json));
         } catch (Exception e) {
             // punt on checked exceptions in Java8 map()
             return Optional.empty();
