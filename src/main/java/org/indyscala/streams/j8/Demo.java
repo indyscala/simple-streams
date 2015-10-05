@@ -40,8 +40,10 @@ public class Demo {
 
         // groupingBy(): http://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html#groupingBy-java.util.function.Function-java.util.function.Supplier-java.util.stream.Collector-
 
-        long errorCount = counts.get(Boolean.FALSE).longValue();
-        long parsedCount = counts.get(Boolean.TRUE).longValue();
+        long errorCount = Optional.ofNullable(counts.get(Boolean.FALSE))
+            .orElse(0L);
+        long parsedCount = Optional.ofNullable(counts.get(Boolean.TRUE))
+            .orElse(0L);
 
         return new Result()
             .put("count", parsedCount + errorCount)
