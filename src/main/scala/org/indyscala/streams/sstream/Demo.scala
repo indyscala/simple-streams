@@ -9,6 +9,7 @@ import scala.io.Codec.UTF8
 
 import scalaz.concurrent.Task
 import scalaz.stream._
+import scalaz.{-\/,\/-}
 
 object Demo {
   val NoLines: Process[Task,String] = Process.halt
@@ -38,12 +39,15 @@ object Demo {
       .map(parseJson)
       .map(_ => 1)
       .sum
-      .runLast
+      .runLog
 
-    val count = counter.run
+    val count: Int = counter.attemptRun match {
+      case -\/ (t) => -1
+      case \/- (a) => a.head
+    }
 
     Result(
-      count=count.map(_.toLong))
+      count=Some(count.toLong))
   }
 
   private def parseJson(json: String): JValue = {
