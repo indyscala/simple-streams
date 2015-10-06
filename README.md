@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-*Caution*: This code here was written as I explored Java 8 [Streams](http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html), Scala [Iterators](http://www.scala-lang.org/api/current/index.html#scala.collection.Iterator) and [scalaz-stream](https://github.com/scalaz/scalaz-stream), each for the first time.  It mistakes, memory leaks, and other gremlins.  We discussed several of them during the [October Indy Scala meeting](http://www.meetup.com/IndyScala/events/224887884/).
+*Caution*: The code here was written as I explored Java 8 [Streams](http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html), Scala [Iterators](http://www.scala-lang.org/api/current/index.html#scala.collection.Iterator) and [scalaz-stream](https://github.com/scalaz/scalaz-stream), each for the first time.  It contains mistakes, memory leaks, and other gremlins.  We discussed several of them during the [October Indy Scala meeting](http://www.meetup.com/IndyScala/events/224887884/).
 
 ## Prerequisites
 
