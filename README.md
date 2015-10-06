@@ -1,19 +1,15 @@
 # Simple Streaming Demos: Java 8 Stream, Scala Iterable and scalaz-stream
 
-### Prerequisites
+## Disclaimer
+
+*Caution*: This code here was written as I explored Java 8 [Streams](http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html), Scala [Iterators](http://www.scala-lang.org/api/current/index.html#scala.collection.Iterator) and [scalaz-stream](https://github.com/scalaz/scalaz-stream), each for the first time.  It mistakes, memory leaks, and other gremlins.  We discussed several of them during the [October Indy Scala meeting](http://www.meetup.com/IndyScala/events/224887884/).
+
+## Prerequisites
 
  * Java 8 JDK
  * sbt 0.13.x
 
-### Examples
-
-Java version I used during presentation:
-```
-$ java -version
-openjdk version "1.8.0_60"
-OpenJDK Runtime Environment (build 1.8.0_60-b24)
-OpenJDK 64-Bit Server VM (build 25.60-b23, mixed mode)
-```
+## Examples
 
 ### Run Test Suite
 
@@ -116,4 +112,15 @@ $ sbt
 [info] Tests: succeeded 5, failed 0, canceled 0, ignored 0, pending 0
 [info] All tests passed.
 [success] Total time: 1 s, completed Oct 6, 2015 3:16:36 PM
+```
+
+## Java
+
+Java version I used during [the presentation](http://www.meetup.com/IndyScala/events/224887884/):
+
+```
+$ java -version
+openjdk version "1.8.0_60"
+OpenJDK Runtime Environment (build 1.8.0_60-b24)
+OpenJDK 64-Bit Server VM (build 25.60-b23, mixed mode)
 ```
