@@ -35,12 +35,17 @@ object Demo {
       .asScala
       .foldLeft(NoLines)(_ ++ io.linesR(_)(UTF8))
 
+    // The approach here is naive.  runLog() hangs on to
+    // the entire stream.
     val counter = lines
       .map(parseJson)
       .map(_ => 1)
       .sum
-      .runLog
+      .runLog           // Don't do this for big streams if
+                        // you care about memory use!
 
+    // Hit the edge of my scalaz-stream knowledge.  The code
+    // below is wrong.
     val count: Int = counter.attemptRun match {
       case -\/ (t) => -1
       case \/- (a) => a.head

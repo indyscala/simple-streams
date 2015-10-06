@@ -45,7 +45,7 @@ object Demo {
     import scala.collection.JavaConverters._
 
     val empty = Set[String]().iterator
-    findInputs
+    findInputs   // java.lang.Iterable<InputStream>
       .asScala
       .map(bufferedLineStream(_))
       .foldLeft(empty)(_ ++ _)

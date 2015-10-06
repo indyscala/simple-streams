@@ -16,7 +16,7 @@ public class Demo {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Result countLines() throws Exception {
-        long count = prepareLines()
+        long count = prepareLines()   // java.util.stream.Stream<String>
             .count();
 
         return new Result()
@@ -25,7 +25,7 @@ public class Demo {
     }
 
     public static Result countJson() throws Exception {
-        long count = prepareJson()
+        long count = prepareJson()   // java.util.stream.Stream<Optional<JsonNode>>
             .count();
 
         return new Result()
@@ -34,7 +34,7 @@ public class Demo {
     }
 
     public static Result countJsonGrouped() throws Exception {
-        Map<Boolean,Long> counts = prepareJson()
+        Map<Boolean,Long> counts = prepareJson()   // java.util.stream.Stream<Optional<JsonNode>>
             .collect(Collectors.groupingBy(
                         Optional::isPresent, HashMap::new, Collectors.counting()));
 
@@ -62,7 +62,7 @@ public class Demo {
     }
 
     private static Stream<Optional<JsonNode>> prepareJson() throws Exception {
-        return prepareLines()
+        return prepareLines()    // java.util.stream.Stream<String>
             .map(Demo::parseJson);
     }
 
